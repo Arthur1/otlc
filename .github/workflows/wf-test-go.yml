@@ -1,0 +1,29 @@
+on:
+  workflow_call:
+  
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
+      - uses: golangci/golangci-lint-action@v3
+        with:
+          args: --timeout=10m
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
+      - run: |
+          go install github.com/mfridman/tparse@latest
+      - run: |
+          set -o pipefail
+          go test ./... -json | tee ./go-test.out | tparse -all
+      - if: always()
+        run: |
+          tparse -file ./go-test.out -format markdown >> "$GITHUB_STEP_SUMMARY"
