@@ -1,51 +1,51 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
+	"log"
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
+type Config struct {
+	Endpoint string            `yaml:"endpoint"`
+	Headers  map[string]string `yaml:"headers"`
+}
 
+var configFile string
+var config Config
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "otlc",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+func NewRootCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "otlc",
+		Short: "otlc: Command Line Tool of OpenTelemetry Protocol",
+		Long: `"otlc" is a command line tool that allows you to easily post metrics by OTLP.
+It acts as a simple exporter and helps you validate the OTLP endpoint.`,
+	}
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	cmd.PersistentFlags().StringVar(&configFile, "conf", "otlc.yaml", "config file path")
+	cobra.OnInitialize(initConfig)
+
+	cmd.AddCommand(NewMetricsCmd())
+	return cmd
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	err := rootCmd.Execute()
+	err := NewRootCmd().Execute()
 	if err != nil {
 		os.Exit(1)
 	}
 }
 
-func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.otlc.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+func initConfig() {
+	viper.SetConfigFile(configFile)
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatalln(err)
+	}
+	if err := viper.Unmarshal(&config); err != nil {
+		log.Fatalln(err)
+	}
 }
-
-

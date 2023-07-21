@@ -1,0 +1,3 @@
+endpoint: localhost:4317
+headers:
+  Authorization: Bearer <token>
