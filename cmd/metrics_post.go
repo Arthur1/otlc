@@ -47,8 +47,12 @@ func NewMetricsPostCmd() *cobra.Command {
 	cmd.Flags().StringP("name", "n", "", "metric name")
 	cmd.Flags().StringP("description", "d", "", "metric description")
 	cmd.Flags().StringToStringP("attributes", "a", nil, "metric datapoint attributes. format: key1=value1,key2=value2")
-	cmd.MarkFlagRequired("value")
-	cmd.MarkFlagRequired("name")
+	if err := cmd.MarkFlagRequired("value"); err != nil {
+		panic(err)
+	}
+	if err := cmd.MarkFlagRequired("name"); err != nil {
+		panic(err)
+	}
 
 	return cmd
 }
