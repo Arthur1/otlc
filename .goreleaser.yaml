@@ -27,3 +27,9 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
+
+brews:
+  - repository:
+      owner: Arthur1
+      name: homebrew-tap
+      token: "{{ .Env.TAP_GITHUB_TOKEN }}"

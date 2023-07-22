@@ -13,6 +13,11 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
+      - id: github_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: 364898
+          private_key: ${{ secrets.ARTHUR1_BOT_PRIVATE_KEY }}
       - uses: goreleaser/goreleaser-action@v4
         with:
           distribution: goreleaser
@@ -20,3 +25,4 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAP_GITHUB_TOKEN: ${{ steps.github_token.outputs.token }}

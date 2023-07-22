@@ -13,3 +13,4 @@ jobs:
     needs:
       - test-go
     uses: ./.github/workflows/wf-release.yml
+    secrets: inherit
