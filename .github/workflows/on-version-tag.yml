@@ -1,0 +1,15 @@
+name: CI for vesion tag
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  test-go:
+    uses: ./.github/workflows/wf-test-go.yml
+  
+  release:
+    needs:
+      - test-go
+    uses: ./.github/workflows/wf-release.yml
