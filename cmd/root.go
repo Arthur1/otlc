@@ -1,12 +1,21 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
+
+type VersionInfo struct {
+	version string
+	commit  string
+	date    string
+}
+
+var versionInfo VersionInfo
 
 type Config struct {
 	Endpoint string            `yaml:"endpoint"`
@@ -26,6 +35,8 @@ It acts as a simple exporter and helps you validate the OTLP endpoint.`,
 
 	cmd.PersistentFlags().StringVar(&configFile, "conf", "otlc.yaml", "config file path")
 	cobra.OnInitialize(initConfig)
+
+	cmd.Version = fmt.Sprintf("%s (rev %s)", versionInfo.version, versionInfo.commit)
 
 	cmd.AddCommand(NewMetricsCmd())
 	return cmd
@@ -48,4 +59,10 @@ func initConfig() {
 	if err := viper.Unmarshal(&config); err != nil {
 		log.Fatalln(err)
 	}
+}
+
+func SetVersionInfo(version, commit, date string) {
+	versionInfo.version = version
+	versionInfo.commit = commit
+	versionInfo.date = date
 }
