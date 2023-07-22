@@ -22,3 +22,5 @@ go.work
 
 # config file for otlc
 otlc.yaml
+
+dist/
