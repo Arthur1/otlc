@@ -25,16 +25,28 @@ func NewMetricsPostCmd() *cobra.Command {
 			if err != nil {
 				log.Fatalln(err)
 			}
-			attributes, err := cmd.Flags().GetStringToString("attributes")
+			rattrs, err := cmd.Flags().GetStringToString("resource-attrs")
+			if err != nil {
+				log.Fatalln(err)
+			}
+			/*
+				sattrs, err := cmd.Flags().GetStringToString("scope-attrs")
+				if err != nil {
+					log.Fatalln(err)
+				}
+			*/
+			dattrs, err := cmd.Flags().GetStringToString("datapoint-attrs")
 			if err != nil {
 				log.Fatalln(err)
 			}
 
 			p := metrics.NewPoster(config.Endpoint, config.Headers)
 			if err := p.Post(&metrics.PostParams{
-				Name:           name,
-				Description:    description,
-				DataPointAttrs: attributes,
+				Name:          name,
+				Description:   description,
+				ResourceAttrs: rattrs,
+				// ScopeAttrs:     sattrs,
+				DataPointAttrs: dattrs,
 				DataPointValue: value,
 			}); err != nil {
 				log.Fatalln(err)
@@ -46,7 +58,9 @@ func NewMetricsPostCmd() *cobra.Command {
 	cmd.Flags().StringP("type", "t", "gauge", "metric value type")
 	cmd.Flags().StringP("name", "n", "", "metric name")
 	cmd.Flags().StringP("description", "d", "", "metric description")
-	cmd.Flags().StringToStringP("attributes", "a", nil, "metric datapoint attributes. format: key1=value1,key2=value2")
+	cmd.Flags().StringToString("resource-attrs", nil, "metric resource attributes. format: key1=value1,key2=value2")
+	// cmd.Flags().StringToString("scope-attrs", nil, "metric scope attributes. format: key1=value1,key2=value2")
+	cmd.Flags().StringToString("datapoint-attrs", nil, "metric datapoint attributes. format: key1=value1,key2=value2")
 	if err := cmd.MarkFlagRequired("value"); err != nil {
 		panic(err)
 	}

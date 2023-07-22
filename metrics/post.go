@@ -8,6 +8,7 @@ import (
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc"
 	"go.opentelemetry.io/otel/metric"
 	sdkMetric "go.opentelemetry.io/otel/sdk/metric"
+	"go.opentelemetry.io/otel/sdk/resource"
 
 	_ "google.golang.org/grpc/encoding/gzip"
 )
@@ -27,6 +28,8 @@ func NewPoster(endpoint string, headers map[string]string) *Poster {
 type PostParams struct {
 	Name           string
 	Description    string
+	ResourceAttrs  map[string]string
+	ScopeAttrs     map[string]string
 	DataPointAttrs map[string]string
 	DataPointValue float64
 }
@@ -42,8 +45,16 @@ func (p *Poster) Post(params *PostParams) error {
 		return err
 	}
 
+	res := resource.NewWithAttributes(
+		"",
+		convertMapToAttrs(params.ResourceAttrs)...,
+	)
+
 	reader := sdkMetric.NewPeriodicReader(exporter)
-	provider := sdkMetric.NewMeterProvider(sdkMetric.WithReader(reader))
+	provider := sdkMetric.NewMeterProvider(
+		sdkMetric.WithReader(reader),
+		sdkMetric.WithResource(res),
+	)
 	defer func() {
 		if err := provider.Shutdown(ctx); err != nil {
 			log.Fatalln(err)
@@ -51,24 +62,38 @@ func (p *Poster) Post(params *PostParams) error {
 		log.Println("🚀 posted.")
 	}()
 
-	attrs := make([]attribute.KeyValue, 0, len(params.DataPointAttrs))
-	for k, v := range params.DataPointAttrs {
+	meter := provider.Meter(
+		"github.com/Arthur1/otlc",
+		/*
+			metric.WithInstrumentationAttributes(
+				convertMapToAttrs(params.ScopeAttrs)...,
+			),
+		*/
+	)
+	_, err = meter.Float64ObservableGauge(
+		params.Name,
+		metric.WithDescription(params.Description),
+		metric.WithFloat64Callback(func(_ context.Context, o metric.Float64Observer) error {
+			o.Observe(
+				params.DataPointValue,
+				metric.WithAttributes(
+					convertMapToAttrs(params.DataPointAttrs)...,
+				),
+			)
+			return nil
+		}),
+	)
+	return err
+}
+
+func convertMapToAttrs(attrsMap map[string]string) []attribute.KeyValue {
+	attrs := make([]attribute.KeyValue, 0, len(attrsMap))
+	for k, v := range attrsMap {
 		attr := attribute.KeyValue{
 			Key:   attribute.Key(k),
 			Value: attribute.StringValue(v),
 		}
 		attrs = append(attrs, attr)
 	}
-
-	meter := provider.Meter("github.com/Arthur1/otlc")
-	_, err = meter.Float64ObservableGauge(
-		params.Name,
-		metric.WithDescription(params.Description),
-		metric.WithFloat64Callback(func(_ context.Context, o metric.Float64Observer) error {
-			attrs := metric.WithAttributes(attrs...)
-			o.Observe(params.DataPointValue, attrs)
-			return nil
-		}),
-	)
-	return err
+	return attrs
 }

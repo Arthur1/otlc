@@ -11,5 +11,6 @@ WIP
 ### post metrics
 
 ```sh
-otlc metrics post --conf ./otlc.yaml --name awesome_gauge --attributes hoge=poyo,fuga=1 --value 123.45
+otlc metrics post --conf ./otlc.yaml --name awesome_gauge --value 123.45 \
+--resource-attrs service.name=otlc --datapoint-attrs hoge=poyo,fuga=1
 ```
