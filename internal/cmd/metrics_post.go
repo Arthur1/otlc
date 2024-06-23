@@ -3,7 +3,7 @@ package cmd
 import (
 	"log"
 
-	"github.com/Arthur1/otlc/metrics"
+	"github.com/Arthur1/otlc/internal/metrics"
 	"github.com/spf13/cobra"
 )
 
