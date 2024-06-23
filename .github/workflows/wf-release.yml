@@ -7,18 +7,20 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-go@v4
+      - uses: actions/setup-go@v5
         with:
-          go-version-file: go.mod
+          go-version: 1.22
       - id: github_token
-        uses: tibdex/github-app-token@v1
+        uses: actions/create-github-app-token@v1
         with:
-          app_id: 364898
-          private_key: ${{ secrets.ARTHUR1_BOT_PRIVATE_KEY }}
-      - uses: goreleaser/goreleaser-action@v4
+          app-id: 364898
+          private-key: ${{ secrets.ARTHUR1_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: "otlc,homebrew-tap"
+      - uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
           version: latest

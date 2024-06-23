@@ -1,6 +1,6 @@
 module github.com/Arthur1/otlc
 
-go 1.20
+go 1.22.4
 
 require (
 	github.com/spf13/cobra v1.7.0
