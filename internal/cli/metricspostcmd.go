@@ -11,7 +11,7 @@ import (
 
 type MetricsPostCmd struct {
 	OTLPEndpoint       string            `name:"otlp-endpoint" required:"" env:"OTEL_EXPORTER_OTLP_ENDPOINT,OTEL_EXPORTER_OTLP_METRICS_ENDPOINT" help:"OTLP endpoint"`
-	OTLPHeaders        map[string]string `name:"otlp-headers" env:"OTEL_EXPORTER_OTLP_HEADERS,OTEL_EXPORTER_OTLP_METRICS_HEADERS" help:"OTLP headers"`
+	OTLPHeaders        map[string]string `name:"otlp-headers" mapsep:"," env:"OTEL_EXPORTER_OTLP_HEADERS,OTEL_EXPORTER_OTLP_METRICS_HEADERS" help:"OTLP headers"`
 	OTLPProtocol       string            `name:"otlp-protocol" env:"OTEL_EXPORTER_OTLP_PROTOCOL" default:"grpc" enum:"grpc,http" help:"OTLP protocol"`
 	OTLPInsecure       bool              `name:"otlp-insecure" help:"disable secure connection (required for such as localhost)"`
 	MetricName         string            `name:"name" short:"n" required:"" help:"metric name"`
