@@ -33,7 +33,7 @@ Flags:
 
       --otlp-endpoint=STRING             OTLP endpoint ($OTEL_EXPORTER_OTLP_ENDPOINT,
                                          $OTEL_EXPORTER_OTLP_METRICS_ENDPOINT)
-      --otlp-headers=KEY=VALUE;...       OTLP headers ($OTEL_EXPORTER_OTLP_HEADERS, $OTEL_EXPORTER_OTLP_METRICS_HEADERS)
+      --otlp-headers=KEY=VALUE,...       OTLP headers ($OTEL_EXPORTER_OTLP_HEADERS, $OTEL_EXPORTER_OTLP_METRICS_HEADERS)
       --otlp-protocol="grpc"             OTLP protocol ($OTEL_EXPORTER_OTLP_PROTOCOL)
       --otlp-insecure                    disable secure connection (required for such as localhost)
   -n, --name=STRING                      metric name
