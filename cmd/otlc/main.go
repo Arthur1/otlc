@@ -1,14 +1,8 @@
 package main
 
-import "github.com/Arthur1/otlc/internal/cmd"
-
-var (
-	version = "dev"
-	commit  = "none"
-	date    = "unknown"
-)
+import "github.com/Arthur1/otlc/internal/cli"
 
 func main() {
-	cmd.SetVersionInfo(version, commit, date)
-	cmd.Execute()
+	c := &cli.Cli{}
+	c.Run()
 }
