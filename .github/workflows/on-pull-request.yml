@@ -1,0 +1,8 @@
+name: CI for pull request
+
+on:
+  pull_request:
+
+jobs:
+  test-go:
+    uses: ./.github/workflows/wf-test-go.yml
