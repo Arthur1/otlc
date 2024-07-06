@@ -6,9 +6,3 @@ on:
 jobs:
   test-go:
     uses: ./.github/workflows/wf-test-go.yml
-
-  build-container:
-    uses: ./.github/workflows/wf-build-container.yml
-    secrets: inherit
-    with:
-      needs-push: true
