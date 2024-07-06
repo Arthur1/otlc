@@ -5,6 +5,12 @@ on:
     tags: ["v*"]
 
 jobs:
-  release:
-    uses: ./.github/workflows/wf-release.yml
+  release-binary:
+    uses: ./.github/workflows/wf-release-binary.yml
     secrets: inherit
+
+  release-container:
+    uses: ./.github/workflows/wf-build-container.yml
+    secrets: inherit
+    with:
+      needs-push: true
