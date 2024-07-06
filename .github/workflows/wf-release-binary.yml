@@ -1,4 +1,4 @@
-name: release
+name: release-binary
 
 on:
   workflow_call:
@@ -28,3 +28,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAP_GITHUB_TOKEN: ${{ steps.github_token.outputs.token }}
+
+  release-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
