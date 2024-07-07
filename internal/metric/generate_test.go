@@ -16,8 +16,9 @@ func TestGenerate(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {
-		in   *GenerateParams
-		want *metricdata.ResourceMetrics
+		in      *GenerateParams
+		want    *metricdata.ResourceMetrics
+		wantErr bool
 	}{
 		"generates gauge without any resource attribute and datapoint attribute": {
 			in: &GenerateParams{
@@ -187,6 +188,20 @@ func TestGenerate(t *testing.T) {
 				}},
 			},
 		},
+
+		"returns error when unexpected metric type is passed": {
+			in: &GenerateParams{
+				Resource:          resource.Empty(),
+				MetricName:        "awesome.gauge",
+				MetricType:        "histogram",
+				MetricDescription: "awesome gauge",
+				MetricUnit:        "1",
+				DataPointAttrs:    map[string]string{},
+				DataPointTime:     testutil.Time(t, "2006-01-02T15:04:05Z"),
+				DataPointValue:    42,
+			},
+			wantErr: true,
+		},
 	}
 
 	assertDataPointAttributes := func(t *testing.T, want, got *metricdata.ResourceMetrics) {
@@ -208,9 +223,13 @@ func TestGenerate(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			got, err := Generate(tt.in)
-			assert.NoError(t, err)
-			testutil.NoDiff(t, tt.want, got, []cmp.Option{cmpopts.IgnoreTypes(attribute.Set{})})
-			assertDataPointAttributes(t, tt.want, got)
+			if tt.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+				testutil.NoDiff(t, tt.want, got, []cmp.Option{cmpopts.IgnoreTypes(attribute.Set{})})
+				assertDataPointAttributes(t, tt.want, got)
+			}
 		})
 	}
 }

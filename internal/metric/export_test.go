@@ -34,4 +34,14 @@ func TestNewExporter(t *testing.T) {
 		assert.IsType(t, got, &otlpmetrichttp.Exporter{})
 		// TODO: test with dummy server
 	})
+
+	t.Run("returns error when unexpected protocol is passed", func(t *testing.T) {
+		t.Parallel()
+		params := &NewExporterParams{
+			OTLPProtocol: "unknown",
+		}
+
+		_, err := NewExporter(params)
+		assert.Error(t, err)
+	})
 }
