@@ -25,7 +25,7 @@ jobs:
           go install github.com/mfridman/tparse@latest
       - run: |
           set -o pipefail
-          go test ./... -json | tee ./go-test.out | tparse -all
+          go test ./... -cover -json | tee ./go-test.out | tparse -all
       - if: always()
         run: |
           tparse -file ./go-test.out -format markdown >> "$GITHUB_STEP_SUMMARY"
