@@ -2,13 +2,27 @@
 
 "otlc" is a command line tool that allows you to easily post metrics by OTLP. It acts as a simple exporter and helps you testing for the OTLP endpoint.
 
-## install
+## Install
+
+Currently we support macOS and Linux. You may be able to run otlc on Windows by using docker or go install.
+
+### Homebrew
 
 ```sh
 brew install Arthur1/tap/otlc
 ```
 
-## run
+### Docker
+
+- [`ghcr.io/arthur1/otlc`](https://github.com/Arthur1/otlc/pkgs/container/otlc)
+
+### go install
+
+```sh
+go install github.com/Arthur1/otlc/cmd/otlc@latest
+```
+
+## Run
 
 ### post metrics
 
