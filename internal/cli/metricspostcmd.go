@@ -7,6 +7,7 @@ import (
 
 	"github.com/Arthur1/otlc/internal/metric"
 	"github.com/Arthur1/otlc/internal/resource"
+	"github.com/Arthur1/otlc/internal/scope"
 )
 
 type MetricsPostCmd struct {
@@ -19,7 +20,10 @@ type MetricsPostCmd struct {
 	MetricDescription  string            `name:"description" short:"d" help:"metric description"`
 	MetricUnit         string            `name:"unit" short:"u" default:"1" help:"metric unit"`
 	ResourceAttrs      map[string]string `name:"resource-attrs" mapsep:"," help:"resource attributes"`
-	DataPointAttrs     map[string]string `name:"datapoint-attrs" mapsep:"," aliases:"attrs" help:"datapoint attributes"`
+	ScopeName          string            `name:"scope-name" help:"instrumentation scope name"`
+	ScopeVersion       string            `name:"scope-version" help:"instrumentation scope version"`
+	ScopeSchemaURL     string            `name:"scope-schemaurl" help:"instrumentation scope schema url"`
+	DataPointAttrs     map[string]string `name:"datapoint-attrs" mapsep:"," aliases:"attrs" help:"datapoint attributes (--attrs is an alias)"`
 	DataPointTimestamp int64             `name:"timestamp" help:"datapoint timestamp (unix seconds)"`
 	DataPointValue     float64           `arg:"" required:"" help:"datapoint value"`
 }
@@ -46,8 +50,15 @@ func (c *MetricsPostCmd) Run(globals *Globals) error {
 		ResourceAttrs: c.ResourceAttrs,
 	})
 
+	scp := scope.Generate(&scope.GenerateParams{
+		ScopeName:      c.ScopeName,
+		ScopeVersion:   c.ScopeVersion,
+		ScopeSchemaURL: c.ScopeSchemaURL,
+	})
+
 	resourceMetrics, err := metric.Generate(&metric.GenerateParams{
 		Resource:       rsrc,
+		Scope:          scp,
 		MetricName:     c.MetricName,
 		MetricType:     c.MetricType,
 		DataPointAttrs: c.DataPointAttrs,

@@ -55,6 +55,9 @@ Flags:
   -d, --description=STRING               metric description
   -u, --unit="1"                         metric unit
       --resource-attrs=KEY=VALUE,...     resource attributes
-      --datapoint-attrs=KEY=VALUE,...    datapoint attributes
+      --scope-name=STRING                instrumentation scope name
+      --scope-version=STRING             instrumentation scope version
+      --scope-schemaurl=STRING           instrumentation scope schema url
+      --datapoint-attrs=KEY=VALUE,...    datapoint attributes (--attrs is an alias)
       --timestamp=INT-64                 datapoint timestamp (unix seconds)
 ```

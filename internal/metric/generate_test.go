@@ -8,6 +8,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/stretchr/testify/assert"
 	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/sdk/instrumentation"
 	"go.opentelemetry.io/otel/sdk/metric/metricdata"
 	"go.opentelemetry.io/otel/sdk/resource"
 )
@@ -61,6 +62,37 @@ func TestGenerate(t *testing.T) {
 			want: &metricdata.ResourceMetrics{
 				Resource: resource.NewSchemaless(attribute.String("service.name", "test service")),
 				ScopeMetrics: []metricdata.ScopeMetrics{{
+					Metrics: []metricdata.Metrics{{
+						Name: "awesome.gauge",
+						Data: metricdata.Gauge[float64]{
+							DataPoints: []metricdata.DataPoint[float64]{{
+								Time:       testutil.Time(t, "2006-01-02T15:04:05Z"),
+								Value:      42,
+								Attributes: attribute.NewSet(),
+							}},
+						},
+					}},
+				}},
+			},
+		},
+		"generates gauge with an instrument scope": {
+			in: &GenerateParams{
+				Resource: resource.Empty(),
+				Scope: instrumentation.Scope{
+					Name: "github.com/Arthur1/otlc",
+				},
+				MetricName:     "awesome.gauge",
+				MetricType:     "gauge",
+				DataPointAttrs: map[string]string{},
+				DataPointTime:  testutil.Time(t, "2006-01-02T15:04:05Z"),
+				DataPointValue: 42,
+			},
+			want: &metricdata.ResourceMetrics{
+				Resource: resource.Empty(),
+				ScopeMetrics: []metricdata.ScopeMetrics{{
+					Scope: instrumentation.Scope{
+						Name: "github.com/Arthur1/otlc",
+					},
 					Metrics: []metricdata.Metrics{{
 						Name: "awesome.gauge",
 						Data: metricdata.Gauge[float64]{
@@ -144,6 +176,40 @@ func TestGenerate(t *testing.T) {
 			want: &metricdata.ResourceMetrics{
 				Resource: resource.NewSchemaless(attribute.String("service.name", "test service")),
 				ScopeMetrics: []metricdata.ScopeMetrics{{
+					Metrics: []metricdata.Metrics{{
+						Name: "awesome.sum",
+						Data: metricdata.Sum[float64]{
+							DataPoints: []metricdata.DataPoint[float64]{{
+								Time:       testutil.Time(t, "2006-01-02T15:04:05Z"),
+								StartTime:  testutil.Time(t, "2006-01-02T15:03:05Z"),
+								Value:      42,
+								Attributes: attribute.NewSet(),
+							}},
+							IsMonotonic: true,
+							Temporality: metricdata.CumulativeTemporality,
+						},
+					}},
+				}},
+			},
+		},
+		"generates sum with an instrument scope": {
+			in: &GenerateParams{
+				Resource: resource.Empty(),
+				Scope: instrumentation.Scope{
+					Name: "github.com/Arthur1/otlc",
+				},
+				MetricName:     "awesome.sum",
+				MetricType:     "sum",
+				DataPointAttrs: map[string]string{},
+				DataPointTime:  testutil.Time(t, "2006-01-02T15:04:05Z"),
+				DataPointValue: 42,
+			},
+			want: &metricdata.ResourceMetrics{
+				Resource: resource.Empty(),
+				ScopeMetrics: []metricdata.ScopeMetrics{{
+					Scope: instrumentation.Scope{
+						Name: "github.com/Arthur1/otlc",
+					},
 					Metrics: []metricdata.Metrics{{
 						Name: "awesome.sum",
 						Data: metricdata.Sum[float64]{

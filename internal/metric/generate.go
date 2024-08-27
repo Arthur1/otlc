@@ -5,12 +5,14 @@ import (
 	"time"
 
 	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/sdk/instrumentation"
 	"go.opentelemetry.io/otel/sdk/metric/metricdata"
 	"go.opentelemetry.io/otel/sdk/resource"
 )
 
 type GenerateParams struct {
 	Resource          *resource.Resource
+	Scope             instrumentation.Scope
 	MetricName        string
 	MetricType        string
 	MetricDescription string
@@ -66,9 +68,10 @@ func Generate(p *GenerateParams) (*metricdata.ResourceMetrics, error) {
 
 	rm := metricdata.ResourceMetrics{
 		Resource: p.Resource,
-		ScopeMetrics: []metricdata.ScopeMetrics{
-			{Metrics: metrics},
-		},
+		ScopeMetrics: []metricdata.ScopeMetrics{{
+			Metrics: metrics,
+			Scope:   p.Scope,
+		}},
 	}
 
 	return &rm, nil
