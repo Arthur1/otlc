@@ -4,6 +4,9 @@ import (
 	"testing"
 
 	"github.com/Arthur1/otlc/internal/testutil"
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
+	"github.com/stretchr/testify/assert"
 	"go.opentelemetry.io/otel/sdk/instrumentation"
 )
 
@@ -36,7 +39,8 @@ func TestGenerate(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			got := Generate(tt.in)
-			testutil.NoDiff(t, tt.want, got, nil, "instrumentation scope should be equal but has diff")
+			testutil.NoDiff(t, tt.want, got, []cmp.Option{cmpopts.IgnoreFields(instrumentation.Scope{}, "Attributes")}, "instrumentation scope should be equal but has diff")
+			assert.True(t, tt.want.Attributes.Equals(&got.Attributes), "instrumentation scope attributes should be equal but has diff: %s", cmp.Diff(got.Attributes.ToSlice(), tt.want.Attributes.ToSlice()))
 		})
 	}
 }
