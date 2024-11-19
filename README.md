@@ -47,7 +47,8 @@ Flags:
 
       --otlp-endpoint=STRING             OTLP endpoint ($OTEL_EXPORTER_OTLP_ENDPOINT,
                                          $OTEL_EXPORTER_OTLP_METRICS_ENDPOINT)
-      --otlp-headers=KEY=VALUE,...       OTLP headers ($OTEL_EXPORTER_OTLP_HEADERS, $OTEL_EXPORTER_OTLP_METRICS_HEADERS)
+      --otlp-headers=KEY=VALUE,...       OTLP headers ($OTEL_EXPORTER_OTLP_HEADERS,
+                                         $OTEL_EXPORTER_OTLP_METRICS_HEADERS)
       --otlp-protocol="grpc"             OTLP protocol ($OTEL_EXPORTER_OTLP_PROTOCOL)
       --otlp-insecure                    disable secure connection (required for such as localhost)
   -n, --name=STRING                      metric name
@@ -58,6 +59,7 @@ Flags:
       --scope-name=STRING                instrumentation scope name
       --scope-version=STRING             instrumentation scope version
       --scope-schemaurl=STRING           instrumentation scope schema url
+      --scope-attrs=KEY=VALUE,...        instrumentation scope attributes
       --datapoint-attrs=KEY=VALUE,...    datapoint attributes (--attrs is an alias)
       --timestamp=INT-64                 datapoint timestamp (unix seconds)
 ```

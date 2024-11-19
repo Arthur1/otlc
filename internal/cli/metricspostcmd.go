@@ -23,6 +23,7 @@ type MetricsPostCmd struct {
 	ScopeName          string            `name:"scope-name" help:"instrumentation scope name"`
 	ScopeVersion       string            `name:"scope-version" help:"instrumentation scope version"`
 	ScopeSchemaURL     string            `name:"scope-schemaurl" help:"instrumentation scope schema url"`
+	ScopeAttrs         map[string]string `name:"scope-attrs" mapsep:"," help:"instrumentation scope attributes"`
 	DataPointAttrs     map[string]string `name:"datapoint-attrs" mapsep:"," aliases:"attrs" help:"datapoint attributes (--attrs is an alias)"`
 	DataPointTimestamp int64             `name:"timestamp" help:"datapoint timestamp (unix seconds)"`
 	DataPointValue     float64           `arg:"" required:"" help:"datapoint value"`
@@ -54,6 +55,7 @@ func (c *MetricsPostCmd) Run(globals *Globals) error {
 		ScopeName:      c.ScopeName,
 		ScopeVersion:   c.ScopeVersion,
 		ScopeSchemaURL: c.ScopeSchemaURL,
+		ScopeAttrs:     c.ScopeAttrs,
 	})
 
 	resourceMetrics, err := metric.Generate(&metric.GenerateParams{
