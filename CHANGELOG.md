@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.4.0](https://github.com/Arthur1/otlc/compare/v0.3.0...v0.4.0) - 2024-11-19
+- fix(deps): update module github.com/alecthomas/kong to v1 by @renovate in https://github.com/Arthur1/otlc/pull/24
+- fix(deps): update opentelemetry-go monorepo to v1.30.0 by @renovate in https://github.com/Arthur1/otlc/pull/25
+- chore(deps): update dependency go to v1.23.3 by @renovate in https://github.com/Arthur1/otlc/pull/23
+- fix(deps): update module github.com/alecthomas/kong to v1.4.0 by @renovate in https://github.com/Arthur1/otlc/pull/28
+- fix(deps): update opentelemetry-go monorepo to v1.32.0 by @renovate in https://github.com/Arthur1/otlc/pull/27
+- metrics: add option to set scope attributes by @Arthur1 in https://github.com/Arthur1/otlc/pull/29
+
 ## [v0.3.0](https://github.com/Arthur1/otlc/compare/v0.2.2...v0.3.0) - 2024-08-27
 - (nit) remove an unused job on wf-release-binary by @Arthur1 in https://github.com/Arthur1/otlc/pull/14
 - ci: set version of setup-go's go version stable by @Arthur1 in https://github.com/Arthur1/otlc/pull/17
