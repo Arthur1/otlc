@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.4.1](https://github.com/Arthur1/otlc/compare/v0.4.0...v0.4.1) - 2025-01-16
+- chore(deps): update dependency go to v1.23.5 by @renovate in https://github.com/Arthur1/otlc/pull/32
+- fix(deps): update module github.com/alecthomas/kong to v1.6.1 by @renovate in https://github.com/Arthur1/otlc/pull/31
+- fix(deps): update module github.com/stretchr/testify to v1.10.0 by @renovate in https://github.com/Arthur1/otlc/pull/30
+
 ## [v0.4.0](https://github.com/Arthur1/otlc/compare/v0.3.0...v0.4.0) - 2024-11-19
 - fix(deps): update module github.com/alecthomas/kong to v1 by @renovate in https://github.com/Arthur1/otlc/pull/24
 - fix(deps): update opentelemetry-go monorepo to v1.30.0 by @renovate in https://github.com/Arthur1/otlc/pull/25
