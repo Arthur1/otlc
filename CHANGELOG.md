@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.4.2](https://github.com/Arthur1/otlc/compare/v0.4.1...v0.4.2) - 2025-02-26
+- chore(deps): update dependency go to v1.24.0 by @renovate in https://github.com/Arthur1/otlc/pull/36
+- fix(deps): update opentelemetry-go monorepo to v1.34.0 by @renovate in https://github.com/Arthur1/otlc/pull/33
+- fix(deps): update module github.com/alecthomas/kong to v1.8.1 by @renovate in https://github.com/Arthur1/otlc/pull/35
+- fix(deps): update module github.com/google/go-cmp to v0.7.0 by @renovate in https://github.com/Arthur1/otlc/pull/37
+
 ## [v0.4.1](https://github.com/Arthur1/otlc/compare/v0.4.0...v0.4.1) - 2025-01-16
 - chore(deps): update dependency go to v1.23.5 by @renovate in https://github.com/Arthur1/otlc/pull/32
 - fix(deps): update module github.com/alecthomas/kong to v1.6.1 by @renovate in https://github.com/Arthur1/otlc/pull/31
