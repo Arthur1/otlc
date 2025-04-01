@@ -5,7 +5,7 @@ go 1.22.0
 toolchain go1.24.0
 
 require (
-	github.com/alecthomas/kong v1.8.1
+	github.com/alecthomas/kong v1.10.0
 	github.com/google/go-cmp v0.7.0
 	github.com/stretchr/testify v1.10.0
 	go.opentelemetry.io/otel v1.34.0
