@@ -17,7 +17,9 @@ func (v VersionFlag) IsBool() bool {
 	return true
 }
 func (v VersionFlag) BeforeApply(app *kong.Kong, vars kong.Vars) error {
-	printVersion()
+	if err := printVersion(); err != nil {
+		return err
+	}
 	app.Exit(0)
 	return nil
 }
