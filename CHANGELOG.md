@@ -1,5 +1,20 @@
 # Changelog
 
+## [v0.4.3](https://github.com/Arthur1/otlc/compare/v0.4.2...v0.4.3) - 2025-04-24
+- ci: pin GitHub Actions versions by @Arthur1 in https://github.com/Arthur1/otlc/pull/44
+- chore(deps): update actions/create-github-app-token action to v2 by @renovate in https://github.com/Arthur1/otlc/pull/43
+- chore(deps): update dependency go to v1.24.2 by @renovate in https://github.com/Arthur1/otlc/pull/39
+- fix(deps): update opentelemetry-go monorepo to v1.35.0 by @renovate in https://github.com/Arthur1/otlc/pull/40
+- fix(deps): update module github.com/alecthomas/kong to v1.10.0 by @renovate in https://github.com/Arthur1/otlc/pull/41
+- chore: check error on fmt.Fprintf call by @Arthur1 in https://github.com/Arthur1/otlc/pull/46
+- chore: check error on tabwriter.Writer.Flush call by @Arthur1 in https://github.com/Arthur1/otlc/pull/47
+- chore(deps): update golangci/golangci-lint-action action to v7 by @renovate in https://github.com/Arthur1/otlc/pull/42
+- chore: go mod tidy by @Arthur1 in https://github.com/Arthur1/otlc/pull/48
+- ci: use tparse via go tool by @Arthur1 in https://github.com/Arthur1/otlc/pull/49
+- chore: migrate goreleaser's deprecated settings by @Arthur1 in https://github.com/Arthur1/otlc/pull/50
+- chore: Renovate settings to pin some versions by @Arthur1 in https://github.com/Arthur1/otlc/pull/51
+- chore(deps): pin dependencies by @renovate in https://github.com/Arthur1/otlc/pull/52
+
 ## [v0.4.2](https://github.com/Arthur1/otlc/compare/v0.4.1...v0.4.2) - 2025-02-26
 - chore(deps): update dependency go to v1.24.0 by @renovate in https://github.com/Arthur1/otlc/pull/36
 - fix(deps): update opentelemetry-go monorepo to v1.34.0 by @renovate in https://github.com/Arthur1/otlc/pull/33
