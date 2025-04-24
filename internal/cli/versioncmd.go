@@ -29,6 +29,5 @@ func printVersion() error {
 	if _, err := fmt.Fprintf(writer, "Arch:\t%s\n", runtime.GOARCH); err != nil {
 		return err
 	}
-	writer.Flush()
-	return nil
+	return writer.Flush()
 }
