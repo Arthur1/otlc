@@ -2,7 +2,7 @@ name: test-go
 
 on:
   workflow_call:
-  
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -22,10 +22,9 @@ jobs:
         with:
           go-version: stable
       - run: |
-          go install github.com/mfridman/tparse@latest
-      - run: |
           set -o pipefail
-          go test ./... -cover -json | tee ./go-test.out | tparse -all
+          go test ./... -cover -json > ./go-test.out
       - if: always()
         run: |
-          tparse -file ./go-test.out -format markdown >> "$GITHUB_STEP_SUMMARY"
+          go tool tparse -all -file ./go-test.out
+          go tool tparse -all -file ./go-test.out -format markdown >> "$GITHUB_STEP_SUMMARY"
