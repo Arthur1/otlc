@@ -2,7 +2,7 @@ module github.com/Arthur1/otlc
 
 go 1.24
 
-toolchain go1.24.2
+toolchain go1.24.4
 
 require (
 	github.com/alecthomas/kong v1.10.0
