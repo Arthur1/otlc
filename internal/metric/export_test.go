@@ -35,6 +35,30 @@ func TestNewExporter(t *testing.T) {
 		// TODO: test with dummy server
 	})
 
+	t.Run("returns otlpmetrichttp.Exporter (with scheme and custom path)", func(t *testing.T) {
+		t.Parallel()
+		params := &NewExporterParams{
+			OTLPProtocol: "http",
+			OTLPEndpoint: "http://localhost:4318/custom/path/v1/metrics",
+		}
+
+		got, err := NewExporter(params)
+		assert.NoError(t, err)
+		assert.IsType(t, got, &otlpmetrichttp.Exporter{})
+	})
+
+	t.Run("returns otlpmetrichttp.Exporter (no scheme, with custom path)", func(t *testing.T) {
+		t.Parallel()
+		params := &NewExporterParams{
+			OTLPProtocol: "http",
+			OTLPEndpoint: "localhost:4318/custom/path/v1/metrics",
+		}
+
+		got, err := NewExporter(params)
+		assert.NoError(t, err)
+		assert.IsType(t, got, &otlpmetrichttp.Exporter{})
+	})
+
 	t.Run("returns error when unexpected protocol is passed", func(t *testing.T) {
 		t.Parallel()
 		params := &NewExporterParams{

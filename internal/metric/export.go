@@ -3,6 +3,8 @@ package metric
 import (
 	"context"
 	"fmt"
+	"net/url"
+	"strings"
 
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp"
@@ -31,13 +33,22 @@ func NewExporter(p *NewExporterParams) (sdkmetric.Exporter, error) {
 		exporter, err := otlpmetricgrpc.New(context.Background(), options...)
 		return exporter, err
 	case "http":
+		if !strings.Contains(p.OTLPEndpoint, "://") {
+			p.OTLPEndpoint = "https://" + p.OTLPEndpoint
+		}
+		u, err := url.Parse(p.OTLPEndpoint)
+		if err != nil {
+			return nil, fmt.Errorf("invalid OTLP endpoint URL: %w", err)
+		}
+
 		options := []otlpmetrichttp.Option{
-			otlpmetrichttp.WithEndpoint(p.OTLPEndpoint),
+			otlpmetrichttp.WithEndpoint(u.Host),
+			otlpmetrichttp.WithURLPath(u.Path),
 		}
 		if len(p.OTLPHeaders) > 0 {
 			options = append(options, otlpmetrichttp.WithHeaders(p.OTLPHeaders))
 		}
-		if p.OTLPInsecure {
+		if p.OTLPInsecure || u.Scheme == "http" {
 			options = append(options, otlpmetrichttp.WithInsecure())
 		}
 		exporter, err := otlpmetrichttp.New(context.Background(), options...)
